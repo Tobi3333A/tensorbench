@@ -5,6 +5,7 @@ from backends.pytorch import PyTorchBackend
 from benchmarks.stats import summarize_latencies
 from backends.torch_compile import TorchCompileBackend
 from backends.onnxruntime import ONNXRuntimeBackend
+from benchmarks.runner import BenchmarkRunner
 
 
 def main():
@@ -13,11 +14,13 @@ def main():
     model.model.eval()
     model.model.to("cpu")
 
+    runner = BenchmarkRunner(warmup_iterations=10, benchmark_iterations=100)
+
     input_tensor = torch.randn(1, 3, 640, 640)
 
     backend = PyTorchBackend(model.model)
 
-    times = backend.benchmark(input_tensor, iterations=100)
+    times = runner.run(backend, input_tensor)
     stats = summarize_latencies(times)
 
     print("Backend: PyTorch")
@@ -32,10 +35,7 @@ def main():
 
     compiled_backend = TorchCompileBackend(model.model)
 
-    compiled_times = compiled_backend.benchmark(
-        input_tensor,
-        iterations=100,
-    )
+    compiled_times = runner.run(compiled_backend, input_tensor)
     compiled_stats = summarize_latencies(compiled_times)
 
     print("\nBackend: torch.compile")
@@ -50,10 +50,7 @@ def main():
 
     onnx_backend = ONNXRuntimeBackend("yolo11n.onnx")
 
-    onnx_times = onnx_backend.benchmark(
-        input_tensor.numpy(),
-        iterations=100,
-    )
+    onnx_times = runner.run(onnx_backend, input_tensor.numpy())
     onnx_stats = summarize_latencies(onnx_times)
 
     print("\nBackend: ONNX Runtime")

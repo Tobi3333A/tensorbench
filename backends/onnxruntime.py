@@ -1,5 +1,3 @@
-import time
-
 import onnxruntime as ort
 
 
@@ -24,22 +22,3 @@ class ONNXRuntimeBackend:
             None,
             {self.input_name: input_tensor},
         )
-
-    def benchmark(self, input_tensor, iterations=100):
-        self.warmup(input_tensor)
-
-        times = []
-
-        for _ in range(iterations):
-            start = time.perf_counter()
-
-            self.session.run(
-                None,
-                {self.input_name: input_tensor},
-            )
-
-            end = time.perf_counter()
-
-            times.append((end - start) * 1000)
-
-        return times
