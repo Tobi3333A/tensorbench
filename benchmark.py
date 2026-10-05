@@ -34,7 +34,7 @@ def main():
 
     print("Backend: PyTorch")
     print("Device: CPU")
-    print("Input: {batch_size} × 3 × {image_size} × {image_size}")
+    print(f"Input: {batch_size} × 3 × {image_size} × {image_size}")
     print(f"Mean: {result['mean_ms']:.2f} ms")
     print(f"P50:  {result['p50_ms']:.2f} ms")
     print(f"P95:  {result['p95_ms']:.2f} ms")
@@ -53,7 +53,7 @@ def main():
 
     print("\nBackend: torch.compile")
     print("Device: CPU")
-    print("Input: {batch_size} × 3 × {image_size} × {image_size}")
+    print(f"Input: {batch_size} × 3 × {image_size} × {image_size}")
     print(f"Mean: {compiled_result['mean_ms']:.2f} ms")
     print(f"P50:  {compiled_result['p50_ms']:.2f} ms")
     print(f"P95:  {compiled_result['p95_ms']:.2f} ms")
@@ -72,7 +72,7 @@ def main():
 
     print("\nBackend: ONNX Runtime")
     print("Device: CPU")
-    print("Input: {batch_size} × 3 × {image_size} × {image_size}")
+    print(f"Input: {batch_size} × 3 × {image_size} × {image_size}")
     print(f"Mean: {onnx_result['mean_ms']:.2f} ms")
     print(f"P50:  {onnx_result['p50_ms']:.2f} ms")
     print(f"P95:  {onnx_result['p95_ms']:.2f} ms")
@@ -85,8 +85,21 @@ def main():
 
     results = [result, compiled_result, onnx_result]
 
+    fastest = min(results, key=lambda item: item["p50_ms"])
+
+    print(
+        f"\nFastest backend: {fastest['backend']} "
+        f"({fastest['p50_ms']:.2f} ms P50)"
+    )
+
+    results_summary = {
+        "results": results,
+        "fastest_backend": fastest["backend"],
+        "fastest_p50_ms": fastest["p50_ms"],
+    }
+
     with open("results/benchmark.json", "w") as f:
-        json.dump(results, f, indent=2)
+        json.dump(results_summary, f, indent=2)
 
 
 if __name__ == "__main__":

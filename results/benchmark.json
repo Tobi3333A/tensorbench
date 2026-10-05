@@ -1,61 +1,65 @@
-[
-  {
-    "backend": "PyTorch",
-    "device": "CPU",
-    "input_shape": [
-      1,
-      3,
-      640,
-      640
-    ],
-    "iterations": 100,
-    "mean_ms": 159.53722186997766,
-    "p50_ms": 151.27482449952367,
-    "p95_ms": 202.16664779918568,
-    "p99_ms": 256.3250764395345,
-    "min_ms": 128.81415999981982,
-    "max_ms": 287.88730999986
-  },
-  {
-    "backend": "torch.compile",
-    "device": "CPU",
-    "input_shape": [
-      1,
-      3,
-      640,
-      640
-    ],
-    "iterations": 100,
-    "mean_ms": 107.91708764001669,
-    "p50_ms": 107.06799950003187,
-    "p95_ms": 126.69383079919498,
-    "p99_ms": 145.63945214007632,
-    "min_ms": 76.15401899965946,
-    "max_ms": 171.96940699977858,
-    "accuracy": {
-      "max_absolute_error": 0.0013427734375,
-      "mean_absolute_error": 2.631549705256475e-06
+{
+  "results": [
+    {
+      "backend": "PyTorch",
+      "device": "CPU",
+      "input_shape": [
+        1,
+        3,
+        640,
+        640
+      ],
+      "iterations": 100,
+      "mean_ms": 221.64310331980232,
+      "p50_ms": 177.3438870004611,
+      "p95_ms": 395.6458770990138,
+      "p99_ms": 775.9912453397201,
+      "min_ms": 130.0872790016001,
+      "max_ms": 952.6166840005317
+    },
+    {
+      "backend": "torch.compile",
+      "device": "CPU",
+      "input_shape": [
+        1,
+        3,
+        640,
+        640
+      ],
+      "iterations": 100,
+      "mean_ms": 195.85662981004134,
+      "p50_ms": 166.28974749983172,
+      "p95_ms": 389.89622939789103,
+      "p99_ms": 552.9253162514945,
+      "min_ms": 83.56716200069059,
+      "max_ms": 593.992124999204,
+      "accuracy": {
+        "max_absolute_error": 0.00152587890625,
+        "mean_absolute_error": 2.6755726594274165e-06
+      }
+    },
+    {
+      "backend": "ONNX Runtime",
+      "device": "CPU",
+      "input_shape": [
+        1,
+        3,
+        640,
+        640
+      ],
+      "iterations": 100,
+      "mean_ms": 74.22089954012336,
+      "p50_ms": 71.16242099982628,
+      "p95_ms": 88.20348080098482,
+      "p99_ms": 138.88347480071405,
+      "min_ms": 59.24857499849168,
+      "max_ms": 169.31466900132364,
+      "accuracy": {
+        "max_absolute_error": 0.00128173828125,
+        "mean_absolute_error": 2.538315811762004e-06
+      }
     }
-  },
-  {
-    "backend": "ONNX Runtime",
-    "device": "CPU",
-    "input_shape": [
-      1,
-      3,
-      640,
-      640
-    ],
-    "iterations": 100,
-    "mean_ms": 80.31500060005783,
-    "p50_ms": 71.57047350028733,
-    "p95_ms": 106.6975133504456,
-    "p99_ms": 370.25965230006483,
-    "min_ms": 60.24146500021743,
-    "max_ms": 379.9732649986254,
-    "accuracy": {
-      "max_absolute_error": 0.00140380859375,
-      "mean_absolute_error": 2.3525976757809985e-06
-    }
-  }
-]
+  ],
+  "fastest_backend": "ONNX Runtime",
+  "fastest_p50_ms": 71.16242099982628
+}
