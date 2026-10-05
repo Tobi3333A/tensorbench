@@ -12,3 +12,14 @@ def summarize_latencies(times):
         "min_ms": min(times),
         "max_ms": max(times),
     }
+
+def build_result(backend, device, input_shape, times):
+    stats = summarize_latencies(times)
+
+    return {
+        "backend": backend,
+        "device": device,
+        "input_shape": list(input_shape),
+        "iterations": len(times),
+        **stats,
+    }
