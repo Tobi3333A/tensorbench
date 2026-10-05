@@ -1,4 +1,5 @@
 import torch
+import json
 
 from models.yolo import load_model
 from backends.pytorch import PyTorchBackend
@@ -65,6 +66,11 @@ def main():
     print(f"P99:  {onnx_result['p99_ms']:.2f} ms")
     print(f"Min:  {onnx_result['min_ms']:.2f} ms")
     print(f"Max:  {onnx_result['max_ms']:.2f} ms")
+
+    results = [result, compiled_result, onnx_result]
+
+    with open("results/benchmark.json", "w") as f:
+        json.dump(results, f, indent=2)
 
 
 if __name__ == "__main__":
