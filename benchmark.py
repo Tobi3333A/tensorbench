@@ -8,6 +8,12 @@ from backends.torch_compile import TorchCompileBackend
 from backends.onnxruntime import ONNXRuntimeBackend
 from benchmarks.runner import BenchmarkRunner
 
+warmup_iterations = 10
+benchmark_iterations = 100
+
+batch_size = 1
+image_size = 640
+
 
 def main():
     model = load_model()
@@ -15,9 +21,9 @@ def main():
     model.model.eval()
     model.model.to("cpu")
 
-    runner = BenchmarkRunner(warmup_iterations=10, benchmark_iterations=100)
+    runner = BenchmarkRunner(warmup_iterations=warmup_iterations, benchmark_iterations=benchmark_iterations)
 
-    input_tensor = torch.randn(1, 3, 640, 640)
+    input_tensor = torch.randn(batch_size, 3, image_size, image_size)
 
     backend = PyTorchBackend(model.model)
 
@@ -28,7 +34,7 @@ def main():
 
     print("Backend: PyTorch")
     print("Device: CPU")
-    print("Input: 1 × 3 × 640 × 640")
+    print("Input: {batch_size} × 3 × {image_size} × {image_size}")
     print(f"Mean: {result['mean_ms']:.2f} ms")
     print(f"P50:  {result['p50_ms']:.2f} ms")
     print(f"P95:  {result['p95_ms']:.2f} ms")
@@ -47,7 +53,7 @@ def main():
 
     print("\nBackend: torch.compile")
     print("Device: CPU")
-    print("Input: 1 × 3 × 640 × 640")
+    print("Input: {batch_size} × 3 × {image_size} × {image_size}")
     print(f"Mean: {compiled_result['mean_ms']:.2f} ms")
     print(f"P50:  {compiled_result['p50_ms']:.2f} ms")
     print(f"P95:  {compiled_result['p95_ms']:.2f} ms")
@@ -66,7 +72,7 @@ def main():
 
     print("\nBackend: ONNX Runtime")
     print("Device: CPU")
-    print("Input: 1 × 3 × 640 × 640")
+    print("Input: {batch_size} × 3 × {image_size} × {image_size}")
     print(f"Mean: {onnx_result['mean_ms']:.2f} ms")
     print(f"P50:  {onnx_result['p50_ms']:.2f} ms")
     print(f"P95:  {onnx_result['p95_ms']:.2f} ms")
