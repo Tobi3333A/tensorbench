@@ -40,7 +40,7 @@ The following latency measurements are recorded:
 | --- | ---: | ---: | ---: | ---: |
 | PyTorch | 86.73 ms | 82.93 ms | 129.83 ms | 148.48 ms |
 | torch.compile | 58.23 ms | 58.24 ms | 65.22 ms | 70.32 ms |
-| ONNX Runtime | **41.90 ms** | **40.53 ms** | **46.13 ms** | *73.80 ms** |
+| ONNX Runtime | **41.90 ms** | **40.53 ms** | **46.13 ms** | **73.80 ms** |
 
 ONNX Runtime had the lowest latency across the benchmark, with a P50 of 40.53 ms.
 
